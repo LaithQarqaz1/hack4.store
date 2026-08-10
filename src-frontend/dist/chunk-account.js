@@ -5,7 +5,6 @@ var settingsRoute=(function(){var AUTH_BASE_DEFAULT=window.__getSiteWorkerBaseDe
   <button type="button" class="settings-profile__avatar" data-settings-avatar aria-label="تغيير صورة الحساب" disabled>
     <img data-settings-avatar-image alt="" hidden />
     <i class="fa-regular fa-user" data-settings-avatar-fallback aria-hidden="true"></i>
-    <span class="settings-profile__avatar-edit" aria-hidden="true"><i class="fa-solid fa-camera"></i></span>
   </button>
   <input class="visually-hidden settings-profile__avatar-input" data-settings-avatar-input type="file" accept="image/jpeg,image/png,image/webp" disabled />
   <p class="settings-profile__avatar-status" data-settings-avatar-status role="status" aria-live="polite"></p>
