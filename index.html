@@ -92,7 +92,7 @@
   <noscript><link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet"></noscript>
   <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" as="style" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" crossorigin="anonymous"></noscript>
-  <link rel="stylesheet" href="src-frontend/dist/site-bundle.css?v=622831242c">
+  <link rel="stylesheet" href="src-frontend/dist/site-bundle.css?v=d3fbc365df">
 
   <!-- End unified startup assets -->
   
@@ -282,6 +282,7 @@
                 <div class="divider">أو تابع بحساب</div>
                 <div class="auth-social">
                   <button class="social-btn btn-google" id="googleLogin" type="button" aria-label="تسجيل دخول بواسطة Google" onclick="try{return (window.__triggerGoogleLogin?window.__triggerGoogleLogin('login',this):false);}catch(_){return false;}"><i class="fa-brands fa-google" aria-hidden="true"></i></button>
+                  <button class="social-btn btn-passkey" id="passkeyLogin" type="button" aria-label="الدخول بالبصمة" title="الدخول بالبصمة"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M4 10a8 8 0 0 1 16 2v2M2 13a10 10 0 0 0 .4 3M7 12a5 5 0 0 1 10 0v3c0 2-.4 3.8-1.2 5.4M10 13v2a8 8 0 0 1-1.7 5M12 10a2 2 0 0 1 2 2v3a11 11 0 0 1-1.5 5.5M5 14v1c0 1.2-.2 2.3-.6 3.4M20 17c-.1 1.5-.5 3-1 4"/></svg></button>
                 </div>
                 <p class="error-message" id="loginError"></p>
               </form>
@@ -339,6 +340,7 @@
                 <div class="divider">أو تابع بحساب</div>
                 <div class="auth-social">
                   <button class="social-btn btn-google" id="googleLoginRegister" type="button" aria-label="تسجيل دخول بواسطة Google" onclick="try{return (window.__triggerGoogleLogin?window.__triggerGoogleLogin('register',this):false);}catch(_){return false;}"><i class="fa-brands fa-google" aria-hidden="true"></i></button>
+                  <button class="social-btn btn-passkey" id="passkeyLoginRegister" type="button" aria-label="الدخول بالبصمة" title="الدخول بالبصمة"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M4 10a8 8 0 0 1 16 2v2M2 13a10 10 0 0 0 .4 3M7 12a5 5 0 0 1 10 0v3c0 2-.4 3.8-1.2 5.4M10 13v2a8 8 0 0 1-1.7 5M12 10a2 2 0 0 1 2 2v3a11 11 0 0 1-1.5 5.5M5 14v1c0 1.2-.2 2.3-.6 3.4M20 17c-.1 1.5-.5 3-1 4"/></svg></button>
                 </div>
                 <p class="error-message" id="registerError"></p>
                 <p class="legal-consent-note">بإنشاء حساب فإنك توافق على <a href="#/privacy">سياسة الخصوصية</a> و<a href="#/terms">شروط الاستخدام</a></p>
@@ -789,7 +791,7 @@
   </script>
   <!-- /store-identity:jsonld -->
   <script src="src-frontend/dist/site_settings.js?v=9c4bd03e65"></script>
-  <script src="src-frontend/dist/site-bundle.js?v=989b34b9c4"></script>
+  <script src="src-frontend/dist/site-bundle.js?v=224078b1af"></script>
   <!-- End runtime scripts -->
 </body>
 </html>
