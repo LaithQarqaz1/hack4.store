@@ -556,7 +556,12 @@ html[data-theme="dark"] #depositInlineApp .categories .card.depositTreeCard .off
       if (!hintEl) return '';
       const fallbackMethod = (typeof currentMethod !== 'undefined' && currentMethod) ? currentMethod : null;
       const text = resolveInlineMethodWindowNote(method || fallbackMethod);
-      renderInlineMethodLinkedTextElement(hintEl, text);
+      const chosen = method || fallbackMethod;
+      const data = chosen && chosen.data ? chosen.data : (chosen || {});
+      hintEl.classList.remove('store-rich-content');
+      const richRendered = window.StoreRichContent && window.StoreRichContent.renderRichContent(hintEl,data.modalNoteRich,String(data.modalNote || text));
+      hintEl.dataset.richContent = richRendered ? '1' : '';
+      if (!richRendered) renderInlineMethodLinkedTextElement(hintEl, text);
       hintEl.hidden = !text;
       if (hintEl.style) hintEl.style.display = text ? '' : 'none';
       return text;
@@ -687,6 +692,43 @@ html[data-theme="dark"] #depositInlineApp .categories .card.depositTreeCard .off
       if (!mount) return;
       mount.hidden = true;
       mount.innerHTML = '';
+      const data = method && method.data ? method.data : (method || {});
+      const src = window.StoreRichContent ? window.StoreRichContent.safeContentImageUrl(data.detailImageUrl) : '';
+      if (src) {
+        const image = document.createElement('img');
+        image.src = src;
+        image.alt = 'صورة توضيحية لطريقة الإيداع';
+        Object.assign(image.style,{width:'auto',maxWidth:'100%',height:'auto',maxHeight:'320px',objectFit:'contain',padding:'0',border:'0',boxShadow:'none'});
+        image.addEventListener('error', function(){ if (image.parentNode === mount) mount.hidden = true; });
+        mount.appendChild(image);
+        mount.hidden = false;
+      }
+    } catch (_) {}
+  }
+
+  function applyInlineMethodContentOrder(method){
+    try {
+      const modal = document.getElementById('methodModal');
+      const content = modal && modal.querySelector('.modal-content');
+      if (!content || !window.StoreRichContent) return;
+      const data = method && method.data ? method.data : (method || {});
+      const actions = content.querySelector('.actions');
+      if (!actions) return;
+      let proof = content.querySelector('[data-deposit-proof-section]');
+      if (!proof) { proof = document.createElement('div'); proof.setAttribute('data-deposit-proof-section','1'); proof.className = 'inline-proof-section'; content.insertBefore(proof,actions); }
+      const trigger = document.getElementById('proofTrigger');
+      const file = document.getElementById('proofFile');
+      const preview = document.getElementById('proofPreview');
+      [file,trigger,preview].forEach(function(el){if(el && el.parentNode !== proof) proof.appendChild(el);});
+      const sections = {
+        image: getInlineMethodModalMediaMount(), amount: getNativeInlineCalcEl(),
+        details: getNativeInlineMethodInfoEl(), fields: getNativeInlineDynamicExtraFieldsEl(),
+        description: getNativeInlineMethodHintEl(), proof: proof
+      };
+      window.StoreRichContent.normalizeDepositLayout(data.contentOrder).forEach(function(key){
+        const el = sections[key];
+        if (el) { el.setAttribute('data-deposit-section',key); content.insertBefore(el,actions); }
+      });
     } catch (_) {}
   }
 
@@ -966,6 +1008,7 @@ html[data-theme="dark"] #depositInlineApp .categories .card.depositTreeCard .off
     decorateNativeInlineMethodInfo(method);
     ensureInlineMethodInfoCopyButtons(method);
     syncInlineModalDirection();
+    applyInlineMethodContentOrder(method);
   }
 
   function normalizeInlineFlow(value){
@@ -1709,6 +1752,7 @@ html[data-theme="dark"] #depositInlineApp .categories .card.depositTreeCard .off
     if (raw.modalLogoEnabled !== undefined && data.showLogoInModal === undefined) data.showLogoInModal = raw.modalLogoEnabled;
     if (raw.modalImageEnabled !== undefined && data.showLogoInModal === undefined) data.showLogoInModal = raw.modalImageEnabled;
     if (raw.modalNote !== undefined && data.modalNote === undefined) data.modalNote = raw.modalNote;
+    ['modalNoteRich','detailImageUrl','contentOrder'].forEach(function(key){ if (raw[key] !== undefined && data[key] === undefined) data[key] = raw[key]; });
     if (raw.methodHint !== undefined && data.methodHint === undefined) data.methodHint = raw.methodHint;
     if (raw.windowDescription !== undefined && data.windowDescription === undefined) data.windowDescription = raw.windowDescription;
     data.name = String(data.name || methodId).trim();
@@ -3978,7 +4022,7 @@ html[data-theme="dark"] #depositInlineApp .categories .card.depositTreeCard .off
         linkifyInlineMethodValueTextEl(valueTextEl);
       });
       const hintEl = getNativeInlineMethodHintEl();
-      if (hintEl && !hintEl.hidden) {
+      if (hintEl && !hintEl.hidden && hintEl.dataset.richContent !== '1') {
         const rawHint = String(
           (hintEl.dataset && hintEl.dataset.rawValue) ||
           hintEl.textContent ||
@@ -5098,6 +5142,8 @@ html[data-theme="dark"] #depositInlineApp .categories .card.depositTreeCard .off
     const proofTriggerEl = getInlineProofTriggerEl();
     const proofPreviewEl = getInlineProofPreviewEl();
     const proofFileInputEl = getInlineProofFileEl();
+    const proofSection = proofTriggerEl && proofTriggerEl.closest('[data-deposit-proof-section]');
+    if (proofSection) proofSection.hidden = !proofEnabled;
     const actionsEl = submitDepositBtn && submitDepositBtn.parentElement
       ? submitDepositBtn.parentElement
       : (proofTriggerEl && proofTriggerEl.parentElement ? proofTriggerEl.parentElement : null);
