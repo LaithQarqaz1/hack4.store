@@ -2221,8 +2221,8 @@ body.dark-mode #preloader .loader {
           align-items:center;
           justify-content:center;
           padding:calc(var(--app-header-offset, var(--app-header-height, 56px)) + 36px) 24px 64px;
-          background-color:var(--maintenance-bg);
-          background-image:var(--maintenance-bg-image);
+          background-color:var(--bg-app, #f1f3f8);
+          background-image:none;
           backdrop-filter:none !important;
           -webkit-backdrop-filter:none !important;
           color:var(--maintenance-text);
@@ -2249,13 +2249,13 @@ body.dark-mode #preloader .loader {
           pointer-events:none;
           z-index:0;
           overflow:visible;
-          display:none;
+          display:none !important;
           background-image:none;
           opacity:var(--maintenance-scene-opacity, 0);
           background-repeat:repeat-x;
           background-size:auto 100%;
           background-position:0 100%;
-          animation:maintenance-scene-drift 8s ease-in-out infinite alternate;
+          animation:none;
         }
         #maintenance-overlay .maintenance-scene-image{
           display:block;
@@ -2266,7 +2266,7 @@ body.dark-mode #preloader .loader {
         }
         body.theme-snow #maintenance-overlay .maintenance-scene,
         #maintenance-overlay[data-maintenance-theme="snow"] .maintenance-scene{
-          display:block;
+          display:none !important;
         }
         @keyframes maintenance-scene-drift{
           0%{transform:translateX(-14px);}
@@ -2285,19 +2285,19 @@ body.dark-mode #preloader .loader {
         #maintenance-overlay .maintenance-logo{
           width:152px;
           height:152px;
-          border-radius:50%;
+          border-radius:0;
           display:grid;
           place-items:center;
-          overflow:hidden;
-          background:var(--maintenance-logo-bg);
-          border:1px solid var(--maintenance-logo-border);
-          box-shadow:var(--maintenance-logo-shadow);
+          overflow:visible;
+          background:transparent;
+          border:0;
+          box-shadow:none;
         }
         #maintenance-overlay .maintenance-logo-image{
           width:100%;
           height:100%;
-          object-fit:cover;
-          border-radius:50%;
+          object-fit:contain;
+          border-radius:0;
         }
         #maintenance-overlay .maintenance-logo-image[hidden]{
           display:none;
