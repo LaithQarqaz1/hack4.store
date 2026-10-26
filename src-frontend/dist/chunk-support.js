@@ -81,8 +81,8 @@
           border-radius:0;
           overflow:hidden;
           border:0;
-          background:#020403;
-          color:#f8fafc;
+          background:var(--site-surface);
+          color:var(--text);
           box-shadow:none;
           display:grid;
           grid-template-rows:auto auto minmax(0,1fr) auto;
@@ -108,13 +108,15 @@
           min-height:calc(72px + env(safe-area-inset-top,0px));
           padding:calc(12px + env(safe-area-inset-top,0px)) max(16px,calc((100vw - 820px)/2)) 12px;
           border-bottom:1px solid rgba(148,163,184,.18);
-          background:linear-gradient(180deg,#0b0f14,#080c10);
+          background:var(--site-action-fill-dark);
+          color:#ffffff;
           display:flex;
           align-items:center;
           justify-content:space-between;
           gap:10px;
         }
         .site-support-chat__title{
+          color:#ffffff;
           display:flex;
           align-items:center;
           gap:10px;
@@ -420,14 +422,14 @@
         }
         .site-support-chat__bubble.is-user{
           align-self:flex-end;
-          background:var(--site-accent-runtime, var(--accent-theme, #64748b));
+          background:var(--site-action-fill-dark);
           color:#fff;
           border-bottom-left-radius:6px;
         }
         .site-support-chat__bubble.is-admin{
           align-self:flex-start;
-          background:#17212f;
-          color:#eef2f7;
+          background:var(--site-control-surface);
+          color:var(--text);
           border-bottom-right-radius:6px;
         }
         .site-support-chat__system{
@@ -860,7 +862,7 @@
         .site-support-chat__form{
           padding:12px max(16px,calc((100vw - 820px)/2)) 10px;
           border-top:1px solid rgba(148,163,184,.18);
-          background:#0b0f14;
+          background:var(--site-control-surface);
           display:grid;
           grid-template-columns:46px 46px minmax(0,1fr) 52px;
           gap:10px;
@@ -869,7 +871,7 @@
         .site-support-chat__composer{
           flex:0 0 auto;
           min-height:0;
-          background:#0b0f14;
+          background:var(--site-control-surface);
         }
         .site-support-chat__attach{
           width:46px;
@@ -878,8 +880,8 @@
           border-radius:999px;
           display:grid;
           place-items:center;
-          color:#d1d5db;
-          background:#111820;
+          color:var(--text);
+          background:var(--site-control-surface);
           cursor:pointer;
         }
         .site-support-chat__attach.has-image{
@@ -894,8 +896,8 @@
           border-radius:999px;
           display:grid;
           place-items:center;
-          color:#d1d5db;
-          background:#111820;
+          color:var(--text);
+          background:var(--site-control-surface);
           cursor:pointer;
           flex:0 0 auto;
         }
@@ -915,8 +917,8 @@
         }
         .site-support-chat__preview{
           padding:8px max(16px,calc((100vw - 820px)/2)) 0;
-          color:#d1fae5;
-          background:#0b0f14;
+          color:var(--text);
+          background:var(--site-control-surface);
           font-size:.78rem;
           text-align:right;
         }
@@ -926,8 +928,8 @@
           height:50px;
           border-radius:999px;
           border:1px solid #293240;
-          background:#111820;
-          color:#f8fafc;
+          background:var(--site-control-surface);
+          color:var(--text);
           padding:0 18px;
           outline:none;
           font:inherit;
@@ -941,7 +943,7 @@
           display:grid;
           place-items:center;
           color:#fff;
-          background:#22c55e;
+          background:var(--site-action-fill-dark);
           cursor:pointer;
           transition:transform .16s ease,filter .16s ease,background .16s ease;
         }
@@ -990,8 +992,8 @@
         #siteSupportChatStatus{
           min-height:0;
           padding:0 max(16px,calc((100vw - 820px)/2)) max(10px,env(safe-area-inset-bottom,0px));
-          color:#9ca3af;
-          background:#0b0f14;
+          color:var(--text);
+          background:var(--site-control-surface);
           font-size:.74rem;
           text-align:center;
         }
