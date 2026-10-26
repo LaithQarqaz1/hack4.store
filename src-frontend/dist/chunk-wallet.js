@@ -4,12 +4,12 @@
 .wallet-page{
   --wallet-bg:var(--bg-app, var(--site-accent-runtime-surface, #f1f1f4));
   --wallet-surface:#ffffff;
-  --wallet-soft:var(--site-control-surface);
-  --wallet-line:var(--site-control-border);
-  --wallet-dashed:var(--site-control-border);
-  --wallet-text:var(--site-foreground);
-  --wallet-muted:var(--site-foreground);
-  --wallet-primary:var(--site-action-fill);
+  --wallet-soft:#e9ebf3;
+  --wallet-line:#cfd3e4;
+  --wallet-dashed:#d8dbea;
+  --wallet-text:#18233f;
+  --wallet-muted:#777d8e;
+  --wallet-primary:#18233f;
   --wallet-green:#53b69c;
   --wallet-red:#d60945;
   --wallet-gold:#e8b90f;
@@ -23,12 +23,12 @@
 .wallet-search-modal{
   --wallet-bg:var(--bg-app, var(--site-accent-runtime-surface, #f1f1f4));
   --wallet-surface:#ffffff;
-  --wallet-soft:var(--site-control-surface);
-  --wallet-line:var(--site-control-border);
-  --wallet-dashed:var(--site-control-border);
-  --wallet-text:var(--site-foreground);
-  --wallet-muted:var(--site-foreground);
-  --wallet-primary:var(--site-action-fill);
+  --wallet-soft:#e9ebf3;
+  --wallet-line:#cfd3e4;
+  --wallet-dashed:#d8dbea;
+  --wallet-text:#18233f;
+  --wallet-muted:#777d8e;
+  --wallet-primary:#18233f;
   --wallet-green:#53b69c;
   --wallet-red:#d60945;
   --wallet-gold:#e8b90f;
@@ -42,15 +42,15 @@ html[data-theme="dark"] .wallet-search-modal,
 body.dark-mode .wallet-filter-modal,
 body.dark-mode .wallet-history-modal,
 body.dark-mode .wallet-search-modal{
-  --wallet-bg:var(--site-surface);
-  --wallet-surface:var(--site-surface);
-  --wallet-soft:var(--site-control-surface);
-  --wallet-line:var(--site-control-border);
-  --wallet-dashed:var(--site-control-border);
-  --wallet-text:var(--site-foreground);
-  --wallet-muted:var(--site-foreground);
-  --wallet-primary:var(--site-action-fill);
-  --wallet-card-bg:var(--site-surface);
+  --wallet-bg:#07090f;
+  --wallet-surface:#0d111b;
+  --wallet-soft:#171b27;
+  --wallet-line:#2a3045;
+  --wallet-dashed:#33394f;
+  --wallet-text:#f5f7ff;
+  --wallet-muted:#a3a7b6;
+  --wallet-primary:#dfe6ff;
+  --wallet-card-bg:rgba(13,22,44,.96);
   --wallet-card-border:rgba(var(--site-accent-rgb, 125, 140, 175), .24);
   --wallet-card-shadow:0 16px 34px rgba(0,0,0,.24);
 }
