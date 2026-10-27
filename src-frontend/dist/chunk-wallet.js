@@ -496,8 +496,8 @@ body.dark-mode .wallet-search-modal .txn-action.pending{
   min-height:56px;
   border:0;
   border-radius:14px;
-  background:var(--wallet-primary);
-  color:var(--wallet-text);
+  background:var(--site-action-fill-dark);
+  color:#ffffff;
   font-size:clamp(17px, 2.7vw, 24px);
   font-weight:900;
   cursor:pointer;
@@ -676,8 +676,8 @@ html body .wallet-page .wallet-modern-shell{
   font-weight:800;
 }
 .wallet-filter-quick button.active{
-  background:var(--wallet-primary);
-  color:var(--wallet-text);
+  background:var(--site-action-fill-dark);
+  color:#ffffff;
 }
 .wallet-operation-strip{
   display:flex;
@@ -700,8 +700,8 @@ html body .wallet-page .wallet-modern-shell{
   cursor:pointer;
 }
 .wallet-operation-strip button.active{
-  background:var(--wallet-primary);
-  color:var(--wallet-text);
+  background:var(--site-action-fill-dark);
+  color:#ffffff;
 }
 .wallet-filter-calendar{
   border:1px solid var(--wallet-line);
@@ -789,8 +789,8 @@ html body .wallet-page .wallet-modern-shell{
 .wallet-filter-calendar-grid .calendar-day.active,
 .wallet-filter-calendar-grid .calendar-day.range-start,
 .wallet-filter-calendar-grid .calendar-day.range-end{
-  background:var(--wallet-primary);
-  color:var(--wallet-text);
+  background:var(--site-action-fill-dark);
+  color:#ffffff;
 }
 .wallet-filter-calendar-grid .calendar-day.in-range{
   background:var(--wallet-soft);
