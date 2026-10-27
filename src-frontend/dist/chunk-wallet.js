@@ -107,7 +107,7 @@ body.dark-mode .wallet-search-modal{
   border:0;
   border-radius:50%;
   background:transparent;
-  color:var(--wallet-primary);
+  color:var(--wallet-text);
   font-size:24px;
   cursor:pointer;
 }
@@ -400,7 +400,7 @@ body.dark-mode .wallet-history-more-btn{
 }
 .wallet-page .balance-after .txn-balance-value,
 .wallet-search-modal .balance-after .txn-balance-value{
-  color:var(--wallet-primary) !important;
+  color:var(--wallet-text);
 }
 .wallet-page .balance-after.is-rejected .txn-balance-value,
 .wallet-search-modal .balance-after.is-rejected .txn-balance-value{
@@ -408,7 +408,7 @@ body.dark-mode .wallet-history-more-btn{
 }
 .wallet-page .balance-before .txn-balance-value,
 .wallet-search-modal .balance-before .txn-balance-value{
-  color:var(--wallet-muted) !important;
+  color:var(--wallet-text);
   text-decoration:none !important;
 }
 .wallet-page .txn-action{
@@ -1225,21 +1225,21 @@ body:not(.dark-mode) .wallet-search-modal .txn-action{
 #paymentsList .txn-status-side.approved,
 #paymentsList .balance-after.is-approved,
 #paymentsList .balance-after.is-approved .txn-balance-value{
-  color:var(--wallet-green,#53b69c) !important;
+  color:var(--wallet-text) !important;
 }
 #paymentsList .txn-amount.neutral .txn-value,
 #paymentsList .txn-amount.neutral .txn-value :is(.number,.currency,.sign),
 #paymentsList .txn-status-side.pending,
 #paymentsList .balance-after.is-pending,
 #paymentsList .balance-after.is-pending .txn-balance-value{
-  color:var(--wallet-gold,#facc15) !important;
+  color:var(--wallet-text) !important;
 }
 #paymentsList .txn-amount.negative .txn-value,
 #paymentsList .txn-amount.negative .txn-value :is(.number,.currency,.sign),
 #paymentsList .txn-status-side.rejected,
 #paymentsList .balance-after.is-rejected,
 #paymentsList .balance-after.is-rejected .txn-balance-value{
-  color:var(--wallet-red,#d60945) !important;
+  color:var(--wallet-text) !important;
 }
 .payment-inline-details,
 .wallet-inline-details{

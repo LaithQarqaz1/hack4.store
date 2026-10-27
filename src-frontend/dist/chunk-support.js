@@ -337,7 +337,7 @@
           display:grid;
           place-items:center;
           text-align:center;
-          color:#9ca3af;
+          color:var(--text);
           line-height:1.8;
         }
         .site-support-chat__loading{
@@ -348,7 +348,7 @@
           align-content:center;
           gap:12px;
           text-align:center;
-          color:#475569;
+          color:var(--text);
           line-height:1.8;
         }
         html[data-theme="dark"] .site-support-chat__loading,
@@ -438,7 +438,7 @@
           padding:8px 12px;
           border-radius:16px;
           background:rgba(148,163,184,.12);
-          color:#94a3b8;
+          color:var(--text);
           font-size:.78rem;
           line-height:1.65;
           text-align:right;
@@ -462,7 +462,7 @@
         .site-support-chat__system.is-ticket-event{
           background:linear-gradient(180deg,rgba(79,70,229,.12),rgba(15,23,42,.08));
           border:1px solid rgba(148,163,184,.18);
-          color:#dbe4f0;
+          color:var(--text);
         }
         .site-support-chat__system.is-ticket-event i{
           background:var(--site-accent-runtime, var(--accent-theme, #64748b));
@@ -478,7 +478,7 @@
         .site-support-chat__system span{
           display:block;
           margin-top:2px;
-          color:rgba(148,163,184,.78);
+          color:var(--text);
           font-size:.66rem;
           direction:ltr;
         }
