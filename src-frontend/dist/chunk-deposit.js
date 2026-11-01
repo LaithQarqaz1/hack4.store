@@ -2429,7 +2429,7 @@ html[data-theme="dark"] #depositInlineApp .categories .card.depositTreeCard .off
   // A successful redeem shows the full success-animation page (the same overlay
   // used by Binance auto-deposit), not a toast. Falls back to a success toast only
   // if the overlay helper isn't available.
-  function showInlineRechargeSuccessPage(amount){
+  function showInlineRechargeSuccessPage(amount, replay, historyPending){
     var amt = Number(amount);
     var hasAmt = Number.isFinite(amt) && amt > 0;
     var fn = (typeof showWalletActivityOverlay === 'function')
@@ -2438,10 +2438,10 @@ html[data-theme="dark"] #depositInlineApp .categories .card.depositTreeCard .off
     if (fn) {
       try {
         fn({
-          title: 'تم شحن رصيدك',
-          bannerText: 'تم شحن رصيدك',
-          message: 'تمت إضافة المبلغ إلى رصيدك بنجاح.',
-          note: 'يمكنك مراجعة الحركة من سجل المحفظة.',
+          title: replay ? 'الاسترداد مكتمل مسبقًا' : 'تم شحن رصيدك',
+          bannerText: replay ? 'الاسترداد مكتمل مسبقًا' : 'تم شحن رصيدك',
+          message: replay ? 'هذا الاسترداد مكتمل مسبقًا. لم تتم إضافة المبلغ مرة ثانية.' : 'تمت إضافة المبلغ إلى رصيدك بنجاح.',
+          note: historyPending ? 'تمت إضافة الرصيد، ويجري تحديث سجل الحركة.' : 'يمكنك مراجعة الحركة من سجل المحفظة.',
           amount: hasAmt ? amt : undefined,
           currency: 'USD',
           primaryLabel: 'المحفظة',
@@ -2450,7 +2450,24 @@ html[data-theme="dark"] #depositInlineApp .categories .card.depositTreeCard .off
         return;
       } catch (_) {}
     }
-    inlineRechargeToast(hasAmt ? ('تم شحن رصيدك: $' + amt.toFixed(2)) : 'تم شحن رصيدك بنجاح', 'success');
+    inlineRechargeToast(replay ? 'هذا الاسترداد مكتمل مسبقًا ولم يُضف رصيد مرة ثانية.' : (hasAmt ? ('تم شحن رصيدك: $' + amt.toFixed(2)) : 'تم شحن رصيدك بنجاح'), 'success');
+  }
+  async function getInlineRechargeRequest(workerBase, uid, code){
+    // Persist only an opaque fingerprint and UUID, never the recharge code.
+    // Keep unresolved identities across reloads; a timeout cannot prove failure.
+    var normalized = String(code || '').trim().toUpperCase().replace(/[\\s-]+/g, '');
+    var digest = await window.crypto.subtle.digest('SHA-256', new TextEncoder().encode(JSON.stringify([workerBase, uid, normalized])));
+    var fingerprint = Array.from(new Uint8Array(digest)).map(function(b){ return b.toString(16).padStart(2, '0'); }).join('');
+    var key = 'recharge-request-v2:' + fingerprint;
+    var pending = null;
+    try { pending = JSON.parse(window.sessionStorage.getItem(key) || 'null'); } catch (_) {}
+    if (!pending || !/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(String(pending.requestId || ''))) {
+      pending = { requestId: window.crypto.randomUUID() };
+      // Fail closed if persistence is unavailable: do not send a money request
+      // that a reload could repeat with a fresh identity.
+      window.sessionStorage.setItem(key, JSON.stringify(pending));
+    }
+    return { key: key, requestId: pending.requestId };
   }
   // Errors are surfaced via toast (the inline status line was removed).
   async function submitInlineRechargeCode(code){
@@ -2459,15 +2476,19 @@ html[data-theme="dark"] #depositInlineApp .categories .card.depositTreeCard .off
     var auth = readInlineDepositUploadSessionInfo();
     if (!auth.uid) { inlineRechargeToast('يرجى تسجيل الدخول من جديد.', 'error'); return { ok: false }; }
     try {
+      var identity = await getInlineRechargeRequest(workerBase, auth.uid, code);
       var url = new URL(String(workerBase).replace(/\\/+$/, '') + '/');
       url.searchParams.set('mode', 'redeem-code');
       var res = await fetch(url.toString(), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'x-useruid': auth.uid },
-        body: JSON.stringify({ code: code })
+        body: JSON.stringify({ code: code, requestId: identity.requestId })
       });
       var data = await res.json().catch(function(){ return {}; });
-      if (res.ok && data && data.ok !== false) {
+      if (res.ok && data && data.ok === true && data.success === true
+          && data.requestId === identity.requestId && /^[1-9][0-9]*$/.test(String(data.redemptionId || ''))
+          && Number(data.amount) > 0 && data.newBalance != null && Number.isFinite(Number(data.newBalance))
+          && ((data.credited === true && data.idempotent === false) || (data.credited === false && data.idempotent === true))) {
         var amount = Number(data.amount || 0);
         try {
           if (data.newBalance != null) {
@@ -2478,9 +2499,14 @@ html[data-theme="dark"] #depositInlineApp .categories .card.depositTreeCard .off
             }
           }
         } catch (_) {}
-        showInlineRechargeSuccessPage(amount);
+        window.sessionStorage.removeItem(identity.key);
+        showInlineRechargeSuccessPage(amount, data.idempotent === true, data.historyPending === true);
         return { ok: true, data: data };
       }
+      // A definitive business rejection is safe to start afresh. Network,
+      // malformed success and server failures must retain the original UUID.
+      if (!res.ok && res.status >= 400 && res.status < 500 && res.status !== 408 && res.status !== 429
+          && data && data.ok === false && data.code) window.sessionStorage.removeItem(identity.key);
       var msg = (data && data.error) ? String(data.error) : 'تعذّر استبدال الكود.';
       data.__siteErrorHandled = res.__siteErrorHandled === true;
       inlineRechargeToast(msg, 'error', data);
