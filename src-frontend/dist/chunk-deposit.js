@@ -2503,10 +2503,9 @@ html[data-theme="dark"] #depositInlineApp .categories .card.depositTreeCard .off
         showInlineRechargeSuccessPage(amount, data.idempotent === true, data.historyPending === true);
         return { ok: true, data: data };
       }
-      // A definitive business rejection is safe to start afresh. Network,
-      // malformed success and server failures must retain the original UUID.
-      if (!res.ok && res.status >= 400 && res.status < 500 && res.status !== 408 && res.status !== 429
-          && data && data.ok === false && data.code) window.sessionStorage.removeItem(identity.key);
+      // Keep the identity until a bound receipt is acknowledged. A 401/403 or
+      // any pre-finance rejection cannot disprove an earlier committed credit
+      // whose response was lost. Re-signing in must recover that same request.
       var msg = (data && data.error) ? String(data.error) : 'تعذّر استبدال الكود.';
       data.__siteErrorHandled = res.__siteErrorHandled === true;
       inlineRechargeToast(msg, 'error', data);
